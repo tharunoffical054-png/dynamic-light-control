@@ -373,10 +373,10 @@ function SignUpModal({ open, onClose, lang, lampOn, onLogin }: {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!name.trim()) e.name = lang === 'EN' ? 'Full name is required' : 'Nombre requerido';
-    if (!isValidEmail(suEmail)) e.email = lang === 'EN' ? 'Enter a valid email address' : 'Correo inválido';
-    if (!isValidPassword(suPass)) e.pass = lang === 'EN' ? 'Password must be at least 8 characters' : 'Mínimo 8 caracteres';
-    if (suPass !== suConfirm) e.confirm = lang === 'EN' ? "Passwords don't match" : 'Las contraseñas no coinciden';
+    if (!name.trim()) e['name'] = lang === 'EN' ? 'Full name is required' : 'Nombre requerido';
+    if (!isValidEmail(suEmail)) e['email'] = lang === 'EN' ? 'Enter a valid email address' : 'Correo inválido';
+    if (!isValidPassword(suPass)) e['pass'] = lang === 'EN' ? 'Password must be at least 8 characters' : 'Mínimo 8 caracteres';
+    if (suPass !== suConfirm) e['confirm'] = lang === 'EN' ? "Passwords don't match" : 'Las contraseñas no coinciden';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -449,10 +449,10 @@ function SignUpModal({ open, onClose, lang, lampOn, onLogin }: {
                   <User className="absolute left-3.5" style={{ color: '#ca8a04', width: 18, height: 18 }} />
                   <input type="text" value={name} onChange={e => setName(e.target.value)}
                     className="w-full border rounded-xl py-3 text-sm placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-all"
-                    style={{ paddingLeft: 42, paddingRight: 14, background: inputBg, borderColor: errors.name ? '#ef4444' : inputBorder, color: inputColor }}
+                    style={{ paddingLeft: 42, paddingRight: 14, background: inputBg, borderColor: errors['name'] ? '#ef4444' : inputBorder, color: inputColor }}
                     placeholder={lang === 'EN' ? 'Your full name' : 'Tu nombre completo'} autoFocus />
                 </div>
-                {errors.name && <p className="text-xs mt-0.5 text-red-500">{errors.name}</p>}
+                {errors['name'] && <p className="text-xs mt-0.5 text-red-500">{errors['name']}</p>}
               </div>
 
               {/* Email */}
@@ -462,11 +462,11 @@ function SignUpModal({ open, onClose, lang, lampOn, onLogin }: {
                   <Mail className="absolute left-3.5" style={{ color: '#ca8a04', width: 18, height: 18 }} />
                   <input type="email" value={suEmail} onChange={e => setSuEmail(e.target.value)}
                     className="w-full border rounded-xl py-3 text-sm placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-all"
-                    style={{ paddingLeft: 42, paddingRight: 14, background: inputBg, borderColor: errors.email ? '#ef4444' : inputBorder, color: inputColor }}
+                    style={{ paddingLeft: 42, paddingRight: 14, background: inputBg, borderColor: errors['email'] ? '#ef4444' : inputBorder, color: inputColor }}
                     placeholder={lang === 'EN' ? 'your@email.com' : 'tu@email.com'} />
                 </div>
-                {errors.email && <p className="text-xs mt-0.5 text-red-500">{errors.email}</p>}
-                {!errors.email && emailType && (
+                {errors['email'] && <p className="text-xs mt-0.5 text-red-500">{errors['email']}</p>}
+                {!errors['email'] && emailType && (
                   <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 mt-1 px-2.5 py-1.5 rounded-lg"
                     style={{ background: emailType === 'professional' ? 'rgba(59,130,246,0.08)' : 'rgba(234,179,8,0.08)', border: `1px solid ${emailType === 'professional' ? 'rgba(59,130,246,0.2)' : 'rgba(234,179,8,0.25)'}` }}>
                     {emailType === 'professional' ? <Briefcase className="w-3.5 h-3.5 text-blue-500" /> : <Home className="w-3.5 h-3.5 text-yellow-500" />}
@@ -484,13 +484,13 @@ function SignUpModal({ open, onClose, lang, lampOn, onLogin }: {
                   <Lock className="absolute left-3.5" style={{ color: '#ca8a04', width: 18, height: 18 }} />
                   <input type={showPw ? 'text' : 'password'} value={suPass} onChange={e => setSuPass(e.target.value)}
                     className="w-full border rounded-xl py-3 text-sm placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-all"
-                    style={{ paddingLeft: 42, paddingRight: 44, background: inputBg, borderColor: errors.pass ? '#ef4444' : inputBorder, color: inputColor }}
+                    style={{ paddingLeft: 42, paddingRight: 44, background: inputBg, borderColor: errors['pass'] ? '#ef4444' : inputBorder, color: inputColor }}
                     placeholder="Min. 8 characters" />
                   <button type="button" onClick={() => setShowPw(p => !p)} className="absolute right-3.5" style={{ color: light ? '#6b7280' : '#9ca3af' }}>
                     {showPw ? <EyeOff style={{ width: 18, height: 18 }} /> : <Eye style={{ width: 18, height: 18 }} />}
                   </button>
                 </div>
-                {errors.pass && <p className="text-xs mt-0.5 text-red-500">{errors.pass}</p>}
+                {errors['pass'] && <p className="text-xs mt-0.5 text-red-500">{errors['pass']}</p>}
                 {suPass.length > 0 && (
                   <div className="flex items-center gap-1.5 mt-1.5">
                     {[1,2,3,4].map(i => <div key={i} className="flex-1 h-1 rounded-full transition-all duration-300" style={{ background: i <= pwStrength ? strColors[pwStrength] : light ? '#e5e7eb' : '#374151' }} />)}
@@ -506,7 +506,7 @@ function SignUpModal({ open, onClose, lang, lampOn, onLogin }: {
                   <Lock className="absolute left-3.5" style={{ color: '#ca8a04', width: 18, height: 18 }} />
                   <input type={showCf ? 'text' : 'password'} value={suConfirm} onChange={e => setSuConfirm(e.target.value)}
                     className="w-full border rounded-xl py-3 text-sm placeholder-gray-400 focus:outline-none transition-all"
-                    style={{ paddingLeft: 42, paddingRight: 44, background: inputBg, borderColor: suConfirm ? (passwordsMatch ? '#22c55e' : '#ef4444') : errors.confirm ? '#ef4444' : inputBorder, color: inputColor }}
+                    style={{ paddingLeft: 42, paddingRight: 44, background: inputBg, borderColor: suConfirm ? (passwordsMatch ? '#22c55e' : '#ef4444') : errors['confirm'] ? '#ef4444' : inputBorder, color: inputColor }}
                     placeholder="••••••••" />
                   <button type="button" onClick={() => setShowCf(p => !p)} className="absolute right-3.5" style={{ color: light ? '#6b7280' : '#9ca3af' }}>
                     {showCf ? <EyeOff style={{ width: 18, height: 18 }} /> : <Eye style={{ width: 18, height: 18 }} />}
@@ -1615,7 +1615,11 @@ function RecycleView({ notes, setNotes, lampOn, language, textPrimary, textSecon
   textPrimary: string; textSecondary: string; borderColor: string; cardBg: string; dark: boolean;
 }) {
   const deletedNotes = notes.filter(n => n.deleted);
-  const restore = (id: string) => setNotes(prev => prev.map(n => n.id === id ? { ...n, deleted: false, deletedAt: undefined } : n));
+  const restore = (id: string) => setNotes(prev => prev.map(n => {
+    if (n.id !== id) return n;
+    const { deletedAt: _deletedAt, ...restoredNote } = n;
+    return { ...restoredNote, deleted: false };
+  }));
   const deleteForever = (id: string) => setNotes(prev => prev.filter(n => n.id !== id));
   const emptyBin = () => setNotes(prev => prev.filter(n => !n.deleted));
 
