@@ -737,7 +737,7 @@ function ContactModal({ open, onClose, lang, lampOn }: { open: boolean; onClose:
 }
 
 // ─── Improved LampCordRight ───────────────────────────────────────────────────
-function LampCordRight({ lampOn, onToggle }: { lampOn: boolean; onToggle: () => void }) {
+function LampCordRight({ lampOn, onToggle, className = '' }: { lampOn: boolean; onToggle: () => void; className?: string }) {
   const [isDragging, setIsDragging] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const dragStartY = useRef(0);
@@ -765,7 +765,7 @@ function LampCordRight({ lampOn, onToggle }: { lampOn: boolean; onToggle: () => 
   const shadeLight = lampOn ? 'linear-gradient(180deg,#a06030 0%,#d08840 55%,#a05020 100%)' : 'linear-gradient(180deg,#1a0a02 0%,#3a1608 60%,#1e0b02 100%)';
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 z-40 flex flex-col items-center" style={{ width: 64, pointerEvents: 'none' }}>
+    <div className={`fixed right-0 top-0 bottom-0 z-40 flex flex-col items-center ${className}`} style={{ width: 64, pointerEvents: 'none' }}>
       {/* Ceiling wire */}
       <div style={{ width: 3, height: 52, background: `linear-gradient(180deg, ${wireColor}, ${wireColor})`, borderRadius: 2, transition: 'background 0.7s', pointerEvents: 'none' }} />
 
@@ -2005,8 +2005,8 @@ function LoginPage({
         </div>
       </motion.footer>
 
-      {/* Right-side lamp cord — same design as post-login, visible on ALL screen sizes including mobile */}
-      <LampCordRight lampOn={lampOn} onToggle={() => setLampOn(!lampOn)} />
+      {/* The full lamp occupies the desktop panel; this compact lamp is mobile-only. */}
+      <LampCordRight lampOn={lampOn} onToggle={() => setLampOn(!lampOn)} className="sm:hidden" />
     </div>
   );
 }
@@ -2060,7 +2060,7 @@ export default function App() {
       <ContactModal open={showContact} onClose={() => setShowContact(false)} lang={language} lampOn={lampOn} />
 
       <AnimatePresence mode="wait">
-        {!isLoggedIn ? (
+        {!isLoggedIn || !currentUser ? (
           <motion.div key="login" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
             <LoginPage
               lampOn={lampOn} setLampOn={setLampOn} language={language} setLanguage={setLanguage} onLogin={handleLogin}
@@ -2078,7 +2078,7 @@ export default function App() {
             <NoteVaultApp
               lampOn={lampOn} onToggleLamp={handleToggleLamp}
               notes={notes} setNotes={setNotes}
-              currentUser={currentUser!} setCurrentUser={setCurrentUser}
+              currentUser={currentUser} setCurrentUser={setCurrentUser}
               onLogout={handleLogout} language={language}
             />
           </motion.div>
